@@ -1,10 +1,12 @@
 let deck = [];
 let carta;
 let puntosJugador = 0;
+let creandoImg;
 const tipos = ['C','D','H','S'];
 const especiales = ['A','J','Q','K'];
 const btnPedir = document.querySelector('#btnPedir');
 const smalls = document.querySelectorAll('small');  
+const divJugadorCartas = document.querySelector('#jugador-cartas');
 
 // FUNCION PARA CREAR UNA NUEVA BARAJA
 const crearDeck = () =>{
@@ -45,11 +47,35 @@ deck = crearDeck();
 
 // REMOVIENDO CARTA
 btnPedir.addEventListener('click', () => {
-    carta = pedirCarta();
-    valorCartaR = valorCarta(carta);
+    if(puntosJugador > 21){
+        btnPedir.disabled = true;
+        alert('Perdiste. Te pasaste de 21 puntos');
+    }else if(puntosJugador === 21){
+        btnPedir.disabled = true;
+        alert('Genial. Tienes 21 puntos');
+    }else{
+        carta = pedirCarta();
+        valorCartaR = valorCarta(carta);
+        puntosJugador += valorCartaR;
+        btnPedir.disabled = (puntosJugador >= 21) ? true : false;
+        if(btnPedir.disabled){
+            if(puntosJugador === 21){
+                alert('Genial. Tienes 21 puntos');
+            }else{
+                alert('Perdiste. Te pasaste de 21 puntos');
+            }
+        }
+        creandoImg = document.createElement('img');
+        creandoImg.src = `assets/cartas/${carta}.png`;
+        creandoImg.classList = 'carta';
+        divJugadorCartas.append(creandoImg);
+    }
+    
     // console.log(valorCartaR);
-    puntosJugador += valorCartaR;
     // console.log(puntosJugador);
     // console.log(smalls);
     smalls[0].innerText = puntosJugador; // AGREGANDO PUTOS A JUGADOR
+    // ADD CARDS TO PLAYER DIV
 });
+
+
