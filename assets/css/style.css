@@ -29,6 +29,7 @@ body,
     left: 100px;
     margin-left: -75px;
     width: 150px;
+    border-radius: 10px;
 }
 
 #computadora-cartas,
